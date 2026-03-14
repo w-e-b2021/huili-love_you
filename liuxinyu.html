@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link type="text/css" rel="stylesheet" href="./file/default.css" />
+    <script type="text/javascript" src="./file/jquery.min.js"></script>
+    <script type="text/javascript" src="./file/jscex.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-parser.js"></script>
+    <script type="text/javascript" src="./file/jscex-jit.js"></script>
+    <script type="text/javascript" src="./file/jscex-builderbase.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-async.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-async-powerpack.min.js"></script>
+    <script type="text/javascript" src="./file/love.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="./liuxin.css" />
+    <link rel="stylesheet" href="./star.css" />
+    <link rel="stylesheet" href="./lovetext.css" />
+    <style>
+      .heart {
+        /* display: none; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transition: all 0.5s;
+      }
+      .left,
+      .right {
+        position: absolute;
+        top: 0px;
+        display: block;
+        content: '';
+        height: 39px;
+        width: 26px;
+        background-color: red;
+        border-radius: 13px 13px 0 0;
+      }
+      .right {
+        transform: rotate(45deg);
+        left: 9px;
+      }
+      .left {
+        transform: rotate(-45deg);
+      }
+      @keyframes move {
+        0% {
+          transform: translateY(0px);
+        }
+        100% {
+          transform: translateY(200px);
+        }
+      }
+      .small-circle {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 100;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background-color: red;
+      }
+      @keyframes ground-move {
+        0% {
+          transform: scale(1, 1);
+        }
+        100% {
+          transform: scale(700, 2);
+        }
+      }
+      .ground {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background-color: pink;
+      }
+    </style>
+
+    <style>
+      @keyframes text-move {
+        100% {
+          transform: translateX(50%);
+        }
+      }
+    
+    </style>
+    <style>
+      /* 重置默认样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* 滚动容器：隐藏溢出内容 */
+      .scroll-container {
+        width: 100%;
+        overflow: visible;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <audio class="music" id="yy" src="./music/River Flows In You - 轻音乐网.mp3"></audio>
+
+    <div id="main">
+      <div id="wrap">
+        <canvas id="canvas" width="1100" height="680"></canvas>
+      </div>
+    </div>
+    <div id="love-text" class="text">
+      <ul class="text-ul">
+        <li>倾心之意，无以言表</li>
+        <li>只把温柔，悄悄藏进心头每一刻</li>
+        <li>岁月静好，与卿同享</li>
+        <li>而我，一直守在有你的星河</li>
+      </ul>
+    </div>
+    <div class="bg">
+      <ul class="total-bg">
+        <li id="star-bg"></li>
+      </ul>
+      <section class="liuxin">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </section>
+      <div id="moon"></div>
+    </div>
+    <script src="./bg.js"></script>
+    <script src="./tree.js"></script>
+    <script></script>
+  </body>
+</html>

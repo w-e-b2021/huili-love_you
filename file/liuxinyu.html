@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link type="text/css" rel="stylesheet" href="./file/default.css" />
+    <script type="text/javascript" src="./file/jquery.min.js"></script>
+    <script type="text/javascript" src="./file/jscex.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-parser.js"></script>
+    <script type="text/javascript" src="./file/jscex-jit.js"></script>
+    <script type="text/javascript" src="./file/jscex-builderbase.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-async.min.js"></script>
+    <script type="text/javascript" src="./file/jscex-async-powerpack.min.js"></script>
+    <script type="text/javascript" src="./file/love.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="./liuxin.css" />
+    <link rel="stylesheet" href="./star.css" />
+    <style>
+      .heart {
+        /* display: none; */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transition: all 0.5s;
+      }
+      .left,
+      .right {
+        position: absolute;
+        top: 0px;
+        display: block;
+        content: '';
+        height: 39px;
+        width: 26px;
+        background-color: red;
+        border-radius: 13px 13px 0 0;
+      }
+      .right {
+        transform: rotate(45deg);
+        left: 9px;
+      }
+      .left {
+        transform: rotate(-45deg);
+      }
+      @keyframes move {
+        0% {
+          transform: translateY(0px);
+        }
+        100% {
+          transform: translateY(200px);
+        }
+      }
+      .small-circle {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 100;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background-color: red;
+      }
+      @keyframes ground-move {
+        0% {
+          transform: scale(1, 1);
+        }
+        100% {
+          transform: scale(700, 2);
+        }
+      }
+      .ground {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background-color: pink;
+      }
+    </style>
+
+    <style>
+      .moon {
+        position: absolute;
+        top: 0;
+        left: 300px;
+        width: 350px;
+        height: 350px;
+        background: url('./中月亮.png') no-repeat;
+      }
+      @keyframes text-move {
+        100% {
+          transform: translateX(50%);
+        }
+      }
+      .img-list {
+        position: absolute;
+        bottom: 150px;
+        width: 100%;
+        height: 200px;
+        z-index: 1;
+        overflow-x: scroll;
+        ::-webkit-scrollbar {
+          display: none;
+        }
+        -ms-overflow-style: none; /* IE 和 Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+
+      .img-list-item {
+        width: 200px;
+        background-color: pink;
+      }
+    </style>
+    <style>
+      /* 重置默认样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* 滚动容器：隐藏溢出内容 */
+      .scroll-container {
+        width: 100%;
+        overflow: visible;
+      }
+
+      /* 包裹所有图片的滚动轨道 */
+      .scroll-track,
+      .scroll-track2 {
+        height: 150px;
+        position: absolute;
+
+        display: flex;
+        justify-content: space-between;
+        width: 200%;
+      }
+      .scroll-track {
+        left: 0;
+        transform: translateX(50%);
+        /* animation:
+        scroll-left 10s linear,
+        scroll-live 10s linear 10s infinite; */
+      }
+      .scroll-track2 {
+        right: 0;
+        transform: translateX(-50%);
+        /* animation:
+      scroll-right 10s linear,
+      scroll-live-right 10s linear 10s infinite; */
+      }
+      /* 图片样式 */
+      .scroll-track img,
+      .scroll-track2 img {
+        width: 10%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* 滚动动画：从右向左 */
+      @keyframes scroll-left {
+        0% {
+          transform: translateX(50%);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+      /* 滚动动画：从右向左 */
+      @keyframes scroll-live {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      /* 滚动动画：从左向右 */
+      @keyframes scroll-right {
+        0% {
+          transform: translateY(103%) translateX(-50%);
+        }
+        100% {
+          transform: translateY(103%) translateX(0);
+        }
+      }
+      /* 滚动动画：从左向右 */
+      @keyframes scroll-live-right {
+        0% {
+          transform: translateY(103%) translateX(0);
+        }
+        100% {
+          transform: translateY(103%) translateX(50%);
+        }
+      }
+
+      /* 为了实现无缝滚动，我们需要复制一份图片 */
+      /* 实际上 .scroll-track 内容应包含两份相同的图片序列 */
+    </style>
+  </head>
+
+  <body>
+    <audio class="music" id="yy" src="./music/River Flows In You - 轻音乐网.mp3"></audio>
+
+    <div class="img-list scroll-container">
+      <div class="scroll-track" id="track">
+        <img src="./imgs/img1.jpg" alt="1" />
+        <img src="./imgs/img2.jpg" alt="2" />
+        <img src="./imgs/img3.jpg" alt="3" />
+        <img src="./imgs/img4.jpg" alt="4" />
+        <img src="./imgs/img5.jpg" alt="5" />
+        <img src="./imgs/img6.jpg" alt="1" />
+        <img src="./imgs/img7.jpg" alt="2" />
+        <img src="./imgs/img8.jpg" alt="3" />
+        <img src="./imgs/img9.jpg" alt="4" />
+        <img src="./imgs/img10.jpg" alt="5" />
+
+        <img src="./imgs/img1.jpg" alt="1" />
+        <img src="./imgs/img2.jpg" alt="2" />
+        <img src="./imgs/img3.jpg" alt="3" />
+        <img src="./imgs/img4.jpg" alt="4" />
+        <img src="./imgs/img5.jpg" alt="5" />
+        <img src="./imgs/img6.jpg" alt="1" />
+        <img src="./imgs/img7.jpg" alt="2" />
+        <img src="./imgs/img8.jpg" alt="3" />
+        <img src="./imgs/img9.jpg" alt="4" />
+        <img src="./imgs/img10.jpg" alt="5" />
+      </div>
+      <div class="scroll-track2" id="track">
+        <img src="./imgs/img1.jpg" alt="1" />
+        <img src="./imgs/img2.jpg" alt="2" />
+        <img src="./imgs/img3.jpg" alt="3" />
+        <img src="./imgs/img4.jpg" alt="4" />
+        <img src="./imgs/img5.jpg" alt="5" />
+        <img src="./imgs/img6.jpg" alt="1" />
+        <img src="./imgs/img7.jpg" alt="2" />
+        <img src="./imgs/img8.jpg" alt="3" />
+        <img src="./imgs/img9.jpg" alt="4" />
+        <img src="./imgs/img10.jpg" alt="5" />
+
+        <img src="./imgs/img1.jpg" alt="1" />
+        <img src="./imgs/img2.jpg" alt="2" />
+        <img src="./imgs/img3.jpg" alt="3" />
+        <img src="./imgs/img4.jpg" alt="4" />
+        <img src="./imgs/img5.jpg" alt="5" />
+        <img src="./imgs/img6.jpg" alt="1" />
+        <img src="./imgs/img7.jpg" alt="2" />
+        <img src="./imgs/img8.jpg" alt="3" />
+        <img src="./imgs/img9.jpg" alt="4" />
+        <img src="./imgs/img10.jpg" alt="5" />
+      </div>
+    </div>
+
+    <div id="main">
+      <div id="wrap">
+        <canvas id="canvas" width="1100" height="680"></canvas>
+      </div>
+    </div>
+    <div class="bg">
+      <ul class="total-bg">
+        <li id="star-bg"></li>
+      </ul>
+      <section class="liuxin">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </section>
+      <div class="moon"></div>
+    </div>
+    <script src="./bg.js"></script>
+    <script src="./tree.js"></script>
+    <script></script>
+  </body>
+</html>
